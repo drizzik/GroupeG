@@ -18,6 +18,20 @@ import org.lwjgl.util.glu.GLU;
 
 import java.io.*;
 
+
+/**
+ * Cette classe rassemble la plupart des instructions de base
+ * couramment utilisées avec la version 1.1 d'OpenGL. à savoir :
+ * <ul>
+ *   <li> la création de polygones,
+ *   <li> l'application de texture,
+ *   <li> les transformations affines dans le mode <b>MODELVIEW</b>,
+ *   <li> la définition des paramètres de caméra dans le mode <b>PROJECTION<b/>,
+ *   <li> les transformations affines dans le <b>MODELVIEW</b>,
+ *   <li> l'empilement et le dépilement de textures.
+ * </ul>
+ */
+
 public class OpenGLEnVrac {
     private boolean done = false;
     private boolean fullscreen = false;
