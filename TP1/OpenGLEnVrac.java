@@ -1,3 +1,4 @@
+
 package TP1;
 
 
@@ -28,7 +29,7 @@ import java.io.*;
  *   <li> les transformations affines dans le mode <b>MODELVIEW</b>,
  *   <li> la définition des paramètres de caméra dans le mode <b>PROJECTION<b/>,
  *   <li> les transformations affines dans le <b>MODELVIEW</b>,
- *   <li> l'empilement et le dépilement de textures.
+ *   <li> l'empilement et le dépilement de matrices.
  * </ul>
  */
 
@@ -47,9 +48,9 @@ public class OpenGLEnVrac {
     private boolean light;         // Lighting ON/OFF    
     
     private float[] lightAmbient = {1.0f,1.0f,1.0f,1.0f};
-    private float[] lightDiffuse = {1.0f,1.0f,1.0f,1.0f};
-
-    private float[] lightPosition = {0.0f,0.0f,5.0f,1.0f};
+    private float[] lightDiffuse = {1.0f,0.5f,0.5f,0.0f};
+    private float[] lightSpecularComponent=  {0.0f,1.0f,0.0f,1.0f};
+    private float[] lightPosition = {0.0f,0.0f,-2.0f,1.0f};
 
     private boolean filter = false;
     
@@ -140,7 +141,9 @@ public class OpenGLEnVrac {
 
         GL11.glLoadIdentity();                          // Reset The Current Modelview Matrix
 
-        GL11.glTranslatef(0.0f, 0.0f, -6.0f); // Move Into The Screen 5 Units
+        GL11.glTranslatef(1.5f, 0.0f, -8.0f); // Move Into The Screen 5 Units
+        
+        GL11.glPushMatrix();
         GL11.glRotatef(xrot, 1.0f, 0.0f, 0.0f); // Rotate On The X Axis
         GL11.glRotatef(yrot, 0.0f, 1.0f, 0.0f); // Rotate On The Y Axis
         GL11.glRotatef(zrot, 0.0f, 0.0f, 1.0f); // Rotate On The Z Axis        
@@ -155,7 +158,7 @@ public class OpenGLEnVrac {
             GL11.glTexParameteri(GL11.GL_TEXTURE_2D,GL11.GL_TEXTURE_MAG_FILTER,GL11.GL_NEAREST); // contre l'aliasage proche
             GL11.glTexParameteri(GL11.GL_TEXTURE_2D,GL11.GL_TEXTURE_MIN_FILTER,GL11.GL_NEAREST); // contre l'aliasage lointain
         }
-        
+         
         GL11.glBegin(GL11.GL_QUADS);
         // Front Face
         //GL11.glColor3f(0.5f,0.5f,0.5f);
@@ -220,10 +223,67 @@ public class OpenGLEnVrac {
         GL11.glVertex3f(-1.0f, 1.0f, -1.0f); // Top Left Of The Texture and Quad
         GL11.glEnd();
 
-        xrot += 0.001f; // X Axis Rotation
-        yrot += 0.02f; // Y Axis Rotation
+        xrot += 0.005f; // X Axis Rotation
+        yrot += 0.04f; // Y Axis Rotation
         zrot += 0.0f; // Z Axis Rotation
+        
+        // POPMATRIX : on récupère la sauvegarde d'avant le PushMatrix pour modifier seulement le 2eme cube
+        GL11.glPopMatrix();
+        //--------------------- 2EME CUBE -------------------
+        
+        
+        GL11.glTranslatef(-3.0f, 0.0f , 0.0f);
+        // Rotation 2eme cube
+        GL11.glRotatef(-xrot, 1.0f, 0.0f, 0.0f); // Rotate On The X Axis
+        GL11.glRotatef(-yrot, 0.0f, 1.0f, 0.0f); // Rotate On The Y Axis
+        GL11.glRotatef(-zrot, 0.0f, 0.0f, 1.0f); // Rotate On The Z Axis 
+        GL11.glDisable(GL11.GL_LIGHTING);
+        
+        GL11.glBegin(GL11.GL_LINES);
+         
 
+        //-------Création 2eme cube------
+        
+        //Face 1
+        GL11.glVertex3f(-1.0f, -1.0f, -1.0f);
+        GL11.glVertex3f(-1.0f, -1.0f, 1.0f);
+        
+        GL11.glVertex3f(-1.0f, -1.0f, 1.0f);
+        GL11.glVertex3f(-1.0f, 1.0f, 1.0f);
+        
+        GL11.glVertex3f(-1.0f, 1.0f, 1.0f);
+        GL11.glVertex3f(-1.0f, 1.0f, -1.0f);
+        
+        GL11.glVertex3f(-1.0f, 1.0f, -1.0f);
+        GL11.glVertex3f(-1.0f, -1.0f, -1.0f);
+        //Face 2---------------------------
+        GL11.glVertex3f(-1.0f, -1.0f, -1.0f);
+        GL11.glVertex3f(1.0f, -1.0f, -1.0f);
+        
+        GL11.glVertex3f(-1.0f, -1.0f, 1.0f);
+        GL11.glVertex3f(1.0f, -1.0f, 1.0f);
+        
+        GL11.glVertex3f(-1.0f, 1.0f, 1.0f);
+        GL11.glVertex3f(1.0f, 1.0f, 1.0f);
+        
+        GL11.glVertex3f(-1.0f, 1.0f, -1.0f);
+        GL11.glVertex3f(1.0f, 1.0f, -1.0f);
+        
+        //Liaisons entre les deux faces---------------------------  
+        GL11.glVertex3f(1.0f, -1.0f, -1.0f);
+        GL11.glVertex3f(1.0f, -1.0f, 1.0f);
+        
+        GL11.glVertex3f(1.0f, -1.0f, 1.0f);
+        GL11.glVertex3f(1.0f, 1.0f, 1.0f);
+        
+        GL11.glVertex3f(1.0f, 1.0f, 1.0f);
+        GL11.glVertex3f(1.0f, 1.0f, -1.0f);
+        
+        GL11.glVertex3f(1.0f, 1.0f, -1.0f);
+        GL11.glVertex3f(1.0f, -1.0f, -1.0f);
+        //--------------------------------
+        GL11.glEnd();
+        GL11.glEnable(GL11.GL_LIGHTING);
         return true;
     }
     private void createWindow() throws Exception {
@@ -282,10 +342,14 @@ public class OpenGLEnVrac {
 
         FloatBuffer buffPosition = BufferUtils.createFloatBuffer(4).put(lightPosition);
         buffPosition.position(0);
+        
+        FloatBuffer buffSpecular = BufferUtils.createFloatBuffer(4).put(lightSpecularComponent);
+        buffSpecular.position(0);
                 
         GL11.glLight(GL11.GL_LIGHT1, GL11.GL_AMBIENT, buffAmbient);
         GL11.glLight(GL11.GL_LIGHT1, GL11.GL_DIFFUSE, buffDiffuse);
         GL11.glLight(GL11.GL_LIGHT1, GL11.GL_POSITION, buffPosition);
+        GL11.glLight(GL11.GL_LIGHT1, GL11.GL_SPECULAR, buffSpecular);
         
         GL11.glEnable(GL11.GL_LIGHT1);
         
