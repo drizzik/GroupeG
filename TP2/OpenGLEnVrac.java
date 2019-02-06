@@ -49,13 +49,17 @@ public class OpenGLEnVrac {
     private float[] lightAmbient = {0.2f,0.2f,0.2f,0.2f};
     private float[] lightDiffuse = {0.5f,0.5f,0.5f,0.0f};
     private float[] lightSpecularComponent = {1.0f,1.0f,1.0f,0.0f};
-    
+        
     private float quadratic_attenuation = 0.01f;
     private float linear_attenuation = 0.0f;
     private float constant_attenuation = 1.0f;
 
-    
-    private float[] lightPosition = {0.0f,0.0f,-7.0f,1.0f};
+    // le dernier composabnt de ce vecteur indique le type de lumière :
+    // 1.0f = la lumière est ponctuelle
+    // 0.0f = directionnelle
+    // sa direction est donnée par les trois premières composantes du vecteur
+    // une limière directionnelle n'est pas soumise à l'atténuation
+    private float[] lightPosition = {0.0f,0.0f,-3.0f,1.0f};
     
     
     private float[] no_mat = {0.0f, 0.0f, 0.0f, 1.0f};
@@ -65,9 +69,14 @@ public class OpenGLEnVrac {
     private float no_shininess = 0.0f;
     private float low_shininess = 5.0f;
     private float high_shininess = 100.0f;
-    private float[] mat_emission = {0.3f, 0.2f, 0.2f, 0.0f};    
+    private float[] mat_emission = {0.3f, 0.2f, 0.2f, 0.0f};   
     
-
+    // On ajoute un spot qui va éclairer le cube
+    private float[] spot_direction = {1.5f,0.0f,-5.0f,1.0f};
+    private float spot_cutoff = 20.0f;
+    private float spot_exponent = 2.0f;
+    // VOIR ENSUITE FONCTION INITGL
+    
     private boolean filter = false;
     
     public static void main(String[] argv) {
@@ -378,6 +387,12 @@ public class OpenGLEnVrac {
         FloatBuffer buffSpecular = BufferUtils.createFloatBuffer(4).put(lightSpecularComponent);
         buffSpecular.position(0);
         
+        // ------ON INIT LE BUFFER------------------------------
+        
+        FloatBuffer buffSpotDirection = BufferUtils.createFloatBuffer(4).put(spot_direction);
+        buffSpotDirection.position(0);
+        
+        // -----------------------------------------------
                 
         GL11.glLight(GL11.GL_LIGHT1, GL11.GL_AMBIENT, buffAmbient);
         GL11.glLight(GL11.GL_LIGHT1, GL11.GL_DIFFUSE, buffDiffuse);
@@ -386,6 +401,14 @@ public class OpenGLEnVrac {
         GL11.glLightf(GL11.GL_LIGHT1, GL11.GL_CONSTANT_ATTENUATION, constant_attenuation);
         GL11.glLightf(GL11.GL_LIGHT1, GL11.GL_LINEAR_ATTENUATION, linear_attenuation);
         GL11.glLightf(GL11.GL_LIGHT1, GL11.GL_QUADRATIC_ATTENUATION, quadratic_attenuation);
+        
+        // --- ON INIT NOTRE SPOT ------------------------
+        
+        // on utilise glLight car pas de float (glLightf sinon)
+        GL11.glLight(GL11.GL_LIGHT1, GL11.GL_SPOT_DIRECTION, buffSpotDirection);
+        GL11.glLightf(GL11.GL_LIGHT1, GL11.GL_SPOT_CUTOFF, spot_cutoff);
+        GL11.glLightf(GL11.GL_LIGHT1, GL11.GL_SPOT_EXPONENT, spot_exponent);
+        // -----------------------------------------------
 
         
         

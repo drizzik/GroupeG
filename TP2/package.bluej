@@ -1,9 +1,9 @@
 #BlueJ package file
-dependency1.from=TextureLoader
-dependency1.to=OpenGLEnVrac
+dependency1.from=OpenGLEnVrac
+dependency1.to=TextureLoader
 dependency1.type=UsesDependency
-dependency2.from=OpenGLEnVrac
-dependency2.to=TextureLoader
+dependency2.from=TextureLoader
+dependency2.to=OpenGLEnVrac
 dependency2.type=UsesDependency
 objectbench.height=103
 objectbench.width=711
@@ -11,8 +11,8 @@ package.divider.horizontal=0.6
 package.divider.vertical=0.7582417582417582
 package.editor.height=338
 package.editor.width=581
-package.editor.x=83
-package.editor.y=60
+package.editor.x=428
+package.editor.y=139
 package.frame.height=574
 package.frame.width=753
 package.numDependencies=2
