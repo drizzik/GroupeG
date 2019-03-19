@@ -42,6 +42,8 @@ public abstract class Lumiere
      */
     public Lumiere(Vecteur3D _amb, Vecteur3D _diff, Vecteur3D _spec)
     {
+        this();
+        
         ambient[0] = _amb.getX();
         ambient[1] = _amb.getY();
         ambient[2] = _amb.getZ();
