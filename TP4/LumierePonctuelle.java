@@ -1,35 +1,66 @@
-package TP3;
+package TP4;
 
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.BufferUtils;
+import java.nio.FloatBuffer;
 
 /**
- * Write a description of class LumerePonctuelle here.
+ * La classe LumierePonctuelle représente une source de lumière ponctuelle.
+ * Elle est définie par un point dans l'espace à partir duquel vont irradier
+ * les rayons émis par cette source lumineuse ponctuelle
  *
  * @author (your name)
  * @version (a version number or a date)
  */
 public class LumierePonctuelle extends Lumiere
 {
-    // instance variables - replace the example below with your own
-    private int x;
+    // tableau de floats représentant l'origine de la source lumineuse
+    // la quatrième valeur vaut 1 : cela signifie que ce tableau de réels
+    // sera interprété en tant que paramètre de lumière ponctuelle
+    private float[] m_position = {0.0f,0.0f,0.0f,1.0f};
 
     /**
-     * Constructor for objects of class LumerePonctuelle
+     * Constructeur par défaut de la classe LumiereDirectionnelle
+     * La place en [0,0,0]
      */
     public LumierePonctuelle()
     {
-        // initialise instance variables
-        x = 0;
+        super();
+        m_position[0] = 0.0f;
+        m_position[1] = 0.0f;
+        m_position[2] = 0.0f;
+        m_position[3] = 1.0f; // cf https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/
     }
-
+    
     /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
+     * Constructeur de la classe LumierePonctuelle avec 4 arguments
+     * 
+     * @param _vecteurAmbiant : composante ambiante de la lumière
+     * @param : _vecteurDiffus : composante diffuse de la lumière
+     * @param _vecteurSpeculaire : composante spéculaire de la lumière
+     * @param _position : donne la direction des rayons émis
      */
-    public int sampleMethod(int y)
+    public LumierePonctuelle(Vecteur3D _vecteurAmbiant, Vecteur3D _vecteurDiffus, 
+                             Vecteur3D _vecteurSpeculaire, Vecteur3D _position)
     {
-        // put your code here
-        return x + y;
+        // On appelle le construction de la classe parente avec ses paramètres
+        super(_vecteurAmbiant, _vecteurDiffus, _vecteurSpeculaire);
+        
+        // Avec le dernier paramètre, on initialise l'attribution m_position
+        m_position[0] = _position.getX();
+        m_position[0] = _position.getY();
+        m_position[0] = _position.getZ();
+        m_position[0] = 1.0f; // cf https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/
+         
+    }
+    
+    public void initialise()
+    {
+        super.initialise();
+         
+        FloatBuffer buffPosition = BufferUtils.createFloatBuffer(4).put(m_position);
+        buffPosition.position(0);
+
+        GL11.glLight(m_currentLight, GL11.GL_AMBIENT, buffPosition);
     }
 }

@@ -1,4 +1,4 @@
-package TP3;
+package TP4;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.BufferUtils;
@@ -15,6 +15,7 @@ import java.nio.FloatBuffer;
  */
 public abstract class Lumiere
 {
+    // On remplace les tableaux de float suivants par des instances de Vecteur3D
     private float[] m_ambientComponent = {0.0f,0.0f,0.0f,0.0f};
     private float[] m_diffuseComponent = {0.0f,0.0f,0.0f,0.0f};
     private float[] m_specularComponent = {0.0f,0.0f,0.0f,0.0f};
