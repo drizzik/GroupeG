@@ -166,91 +166,11 @@ public class Monde extends Noeud
         
         Vecteur3D vecteur0 = new Vecteur3D(-0.0f,-0.0f,-36.0f);
         Transformation translation0 = new Translation(this, vecteur0);
-
         
         RotationAnimee rotation11 = new RotationAnimee(translation0, new Vecteur3D(0.0f,1.0f,0.0f), 90.0f, 5000);
-        //CubeTexture cube0 = new CubeTexture(rotation11);
-        Arc arc1 = new Arc(rotation11);
-        //Arc arc2 = new Arc(translation0);
-        /*
-        Vecteur3D vecteur1 = new Vecteur3D(-4.0f,0.0f,0.0f);
-        Transformation translation1 = new Translation(translation0, vecteur1);        
-        CubeTexture cube1 = new CubeTexture(translation1);
+        //Arc arc1 = new Arc(rotation11);
+        Terrain terter = new Terrain(rotation11);
         
-        Vecteur3D vecteur2 = new Vecteur3D(-2.0f,0.0f,0.0f);
-        Transformation translation2 = new Translation(translation0, vecteur2);        
-        CubeTexture cube2 = new CubeTexture(translation2);
-
-        Vecteur3D vecteur3 = new Vecteur3D(2.0f,0.0f,0.0f);
-        Transformation translation3 = new Translation(translation0, vecteur3);        
-        CubeTexture cube3 = new CubeTexture(translation3);        
-
-        Vecteur3D vecteur4 = new Vecteur3D(4.0f,0.0f,0.0f);
-        Transformation translation4 = new Translation(translation0, vecteur4);        
-        CubeTexture cube4 = new CubeTexture(translation4);
-        
-        Vecteur3D vecteur5 = new Vecteur3D(-2.0f,2.0f,0.0f);
-        Transformation translation5 = new Translation(translation0, vecteur5);        
-        CubeTexture cube5 = new CubeTexture(translation5);
-        
-        Vecteur3D vecteur6 = new Vecteur3D(0.0f,2.0f,0.0f);
-        Transformation translation6 = new Translation(translation0, vecteur6);        
-        CubeTexture cube6 = new CubeTexture(translation6); 
-
-        Vecteur3D vecteur7 = new Vecteur3D(2.0f,2.0f,0.0f);
-        Transformation translation7 = new Translation(translation0, vecteur7);        
-        CubeTexture cube7 = new CubeTexture(translation7); 
-
-        Vecteur3D vecteur8 = new Vecteur3D(0.0f,4.0f,0.0f);
-        Transformation translation8 = new Translation(translation0, vecteur8);        
-        CubeTexture cube8 = new CubeTexture(translation8);
-        
-        Vecteur3D vecteur9 = new Vecteur3D(0.0f,5.5f,0.0f);
-        Transformation translation9 = new Translation(translation0, vecteur9);
-        Vecteur3D vecteurEchelle9 = new Vecteur3D(0.5f,0.5f,0.5f);        
-        Echelle echelle9 = new Echelle(translation9,vecteurEchelle9);
-        CubeTexture cube9 = new CubeTexture(echelle9);
-        
-        Vecteur3D vecteur10 = new Vecteur3D(0.0f,6.25f,0.0f);
-        Transformation translation10 = new Translation(translation0, vecteur10);
-        Vecteur3D vecteurEchelle10 = new Vecteur3D(0.25f,0.25f,0.25f);        
-        Echelle echelle10 = new Echelle(translation10,vecteurEchelle10);
-        CubeTexture cube10 = new CubeTexture(echelle10);
-        
-        
-        Vecteur3D vecteur11 = new Vecteur3D(0.0f,8.0f,0.0f);
-
-        Transformation translation11 = new Translation(translation0, vecteur11);        
-        RotationAnimee rotation12 = new RotationAnimee(translation11, new Vecteur3D(0.0f,1.0f,0.0f), 90.0f, 5000);
-        CubeTextureParFace cube11 = new CubeTextureParFace(rotation12);  
-        
-        /*
-        int t21[][] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0}, 
-                       {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1},
-                       {0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-                       {0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
-                       {0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0},
-                       {0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0},
-                       {0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
-                       {0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-                       {0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0},
-                       {0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
-                       {1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                       {1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                       {1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                       {1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                       {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
-                       
-        for(int i=0; i<15;  i++){
-            for(int j=0;j<15;j++){
-                if (t21[i][j]==1){
-                     Vecteur3D vecteur10 = new Vecteur3D(2*i,2*j,0.0f);
-                     Transformation translation10 = new Translation(translation0, vecteur10);
-                     CubeTexture cube7 = new CubeTexture(translation10);
-                    }
-                }
-            }*/
-            
     }
     
     private void createWindow() throws Exception {
