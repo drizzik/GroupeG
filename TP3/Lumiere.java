@@ -5,94 +5,103 @@ import org.lwjgl.BufferUtils;
 import java.nio.FloatBuffer;
 
 /**
- * Classe abstraite Lumiere
- * Va regrouper les valeurs AMBIENT, DIFFUSE et SPECULAR
+ * Classe lumière. Cette classe est abstraite, elle sert à 
+ * factoriser les attibuts communs à toutes les lumières :
+ * la composante ambiante, la composante spéculaire et la 
+ * composante diffuse
  *
- * @author Axel
- * @version 0.01
+ * @author (Alexis Heloir)
+ * @version (06/02/2018)
  */
 public abstract class Lumiere
-{  
-    private float[] ambient = {0.0f,0.0f,0.0f,0.0f};
-    private float[] diffuse = {0.0f,0.0f,0.0f,0.0f};
-    private float[] specular = {0.0f,0.0f,0.0f,0.0f};
-    
-    protected int currentLight = -1;
-    
-    private static int nextFreeLight = GL11.GL_LIGHT0;
+{
+    private float[] m_ambientComponent = {0.0f,0.0f,0.0f,0.0f};
+    private float[] m_diffuseComponent = {0.0f,0.0f,0.0f,0.0f};
+    private float[] m_specularComponent = {0.0f,0.0f,0.0f,0.0f};
+
+    protected int m_currentLight = -1;
+    private static int m_nextLight = GL11.GL_LIGHT0;
 
     /**
-     * Constructeur de la classe abstraite Lumiere
-     * Va incrémenter l'ID à chaque instance 
-     * (currentLight est static donc partagé entre toutes les instances de Lumiere)
-     */
-    public Lumiere()
-    {
-        currentLight = nextFreeLight;
-        nextFreeLight++;
+     * Ce constructeur assigne une parmi les 8 lumières 
+     * disponibles en OpenGL1.1. Le compteur m_currentLight 
+     * est statique, c'est à dire que toutes les instances de 
+     * la classe lumière partagent la valeur de m_currentLight.
+     * Chaque instance connait donc le nombre de lumières déjà 
+     * instanciées.
+     */ 
+    public Lumiere(){
+        m_currentLight = m_nextLight;
+        m_nextLight ++;
     }
-    
+
     /**
-     * Constructeur de la classe abstraite Lumiere avec valeurs données
-     * pour les composantes ambiantes, diffuses et spéculaires de la lumiere
+     * Constructeur de la classe lumière prenant en paramètres trois 
+     * instances de Vecteur3D pour les composantes ambiantes, diffuses 
+     * et spéculaire de la lumière
      * 
-     * @param _amb      Vecteur3D pour la lumière ambiante
-     * @param _diff     Vecteur3D pour la lumière diffuse
-     * @param _spec     Vecteur3D pour la lumière spéculaire
+     * @param _vecteurAmbiant la composante ambiante de la lumière (Vecteur3D)
+     * @param _vecteurDiffus la composante diffuse de la lumière (Vecteur3D)
+     * @param _vecteurSpeculaire la composante speculaire de la lumière (Vecteur3D)
      */
-    public Lumiere(Vecteur3D _amb, Vecteur3D _diff, Vecteur3D _spec)
+    public Lumiere(Vecteur3D _vecteurAmbiant, Vecteur3D _vecteurDiffus, Vecteur3D _vecteurSpeculaire)
     {
         this();
         
-        ambient[0] = _amb.getX();
-        ambient[1] = _amb.getY();
-        ambient[2] = _amb.getZ();
-        ambient[3] = 1.0f;
-       
-        diffuse[0] = _diff.getX();
-        diffuse[1] = _diff.getY();
-        diffuse[2] = _diff.getZ();
-        diffuse[3] = 1.0f;
-        
-        specular[0] = _spec.getX();
-        specular[1] = _spec.getY();
-        specular[2] = _spec.getZ();
-        specular[3] = 1.0f;
+        m_ambientComponent[0] = _vecteurAmbiant.getX(); 
+        m_ambientComponent[1] = _vecteurAmbiant.getY(); 
+        m_ambientComponent[2] = _vecteurAmbiant.getZ(); 
+        m_ambientComponent[3] = 1.0f;
+
+        m_diffuseComponent[0] = _vecteurDiffus.getX(); 
+        m_diffuseComponent[1] = _vecteurDiffus.getY(); 
+        m_diffuseComponent[2] = _vecteurDiffus.getZ(); 
+        m_diffuseComponent[3] = 1.0f;
+
+        m_specularComponent[0] = _vecteurSpeculaire.getX(); 
+        m_specularComponent[1] = _vecteurSpeculaire.getY(); 
+        m_specularComponent[2] = _vecteurSpeculaire.getZ(); 
+        m_specularComponent[3] = 1.0f;
+   
     }
     
+    
     /**
-     * Initialisation de la lumière courante
+     * initialisation de la lumière courante.
      */
     public void initialise()
     {
-        FloatBuffer buffAmbient = BufferUtils.createFloatBuffer(4).put(ambient);
+        FloatBuffer buffAmbient = BufferUtils.createFloatBuffer(4).put(m_ambientComponent);
         buffAmbient.position(0);
-                
-        FloatBuffer buffDiffuse = BufferUtils.createFloatBuffer(4).put(diffuse);
+
+        FloatBuffer buffDiffuse = BufferUtils.createFloatBuffer(4).put(m_diffuseComponent);
         buffDiffuse.position(0);
-        
-        FloatBuffer buffSpecular = BufferUtils.createFloatBuffer(4).put(specular);
+
+        FloatBuffer buffSpecular = BufferUtils.createFloatBuffer(4).put(m_specularComponent);
         buffSpecular.position(0);
-                
-        GL11.glLight(GL11.GL_LIGHT1, GL11.GL_AMBIENT, buffAmbient);
-        GL11.glLight(GL11.GL_LIGHT1, GL11.GL_DIFFUSE, buffDiffuse);
-        GL11.glLight(GL11.GL_LIGHT1, GL11.GL_SPECULAR, buffSpecular);
+
+        GL11.glLight(m_currentLight, GL11.GL_AMBIENT, buffAmbient);
+        GL11.glLight(m_currentLight, GL11.GL_DIFFUSE, buffDiffuse);
+        GL11.glLight(m_currentLight, GL11.GL_SPECULAR, buffSpecular);        
     }
     
     /**
-     * Active la lumiere courante
-     * En supposant que GL_LIGHTNING est activé
-     */
+     * active la lumière courante (on suppose que GL_LIGHTING)
+     * est également activé
+     */    
     public void allumer()
     {
-        GL11.glEnable(currentLight);
+        GL11.glEnable(m_currentLight);
     }
-    
+
     /**
-     * 
-     */
+     * desactive la lumière courante (on suppose que GL_LIGHTING)
+     * est également activé
+     */    
     public void eteindre()
     {
-        GL11.glDisable(currentLight);
+        GL11.glDisable(m_currentLight);
     }
+
+    
 }

@@ -1,21 +1,21 @@
-package TP5_5;
+package TP3;
 
 
 /**
- * Write a description of class Transformation here.
+ * Write a description of class LumiereSpot here.
  *
  * @author (your name)
  * @version (a version number or a date)
  */
-public class Transformation extends Noeud
+public class LumiereSpot extends LumierePonctuelle
 {
     // instance variables - replace the example below with your own
     private int x;
 
     /**
-     * Constructor for objects of class Transformation
+     * Constructor for objects of class LumiereSpot
      */
-    public Transformation()
+    public LumiereSpot()
     {
         // initialise instance variables
         x = 0;

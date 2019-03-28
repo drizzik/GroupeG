@@ -2,20 +2,20 @@ package TP3;
 
 
 /**
- * Write a description of class Directionelle here.
+ * Write a description of class LumerePonctuelle here.
  *
  * @author (your name)
  * @version (a version number or a date)
  */
-public class Directionelle extends Lumiere
+public class LumierePonctuelle extends Lumiere
 {
     // instance variables - replace the example below with your own
     private int x;
 
     /**
-     * Constructor for objects of class Directionelle
+     * Constructor for objects of class LumerePonctuelle
      */
-    public Directionelle()
+    public LumierePonctuelle()
     {
         // initialise instance variables
         x = 0;

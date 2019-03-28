@@ -11,11 +11,12 @@ import java.nio.FloatBuffer;
  * composante diffuse
  *
  * @author (Alexis Heloir)
- * @version (06/02/2018)
+ * @version (06/02/2019)
  */
 public abstract class Lumiere
 {
-    // On remplace les tableaux de float suivants par des instances de Vecteur3D
+    
+    //remplacons ces tableaux de réels par des Vecteur3D
     private float[] m_ambientComponent = {0.0f,0.0f,0.0f,0.0f};
     private float[] m_diffuseComponent = {0.0f,0.0f,0.0f,0.0f};
     private float[] m_specularComponent = {0.0f,0.0f,0.0f,0.0f};

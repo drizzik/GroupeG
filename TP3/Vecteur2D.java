@@ -1,106 +1,109 @@
 package TP3;
 
 
+
 /**
- * Cette classe représente un veteur à deux dimensions.
- * Elle est surtout utilisée pour définir les coordonnées (u,v) de texture
- *
- * @author Axel
- * @version 0.01
+ * Cette classe représente un vecteur à deux dimentions.
+ * Elle est surtout utilisée pour définir les coordonnées
+ * (u,v) de texture
+ * @author (Alexis Heloir)
+ * @version (0.0.0,1 alpha)
  */
 public class Vecteur2D
 {
-    // instance variables - replace the example below with your own
-    private float m_u=0.0f;
-    private float m_v=0.0f;
+    // attributs de la classe
+    private float m_u=0.0f,m_v=0.0f;
 
     /**
-     * Constructeur par défaut
-     * Initialise les composantes du vecteur à zéro
+     * Le constructeur par défaut initialise 
+     * les deux composants du vecteur à zéro
      */
     public Vecteur2D()
     {
-        // initialisation des composantes
-        m_u=0.0f;
-        m_v=0.0f;
-    }
-    
-    /**
-     * Constructeur dans lequel nous spécifions les valeurs de u et v
-     * Initialise les composantes du vecteur en fonction des valeurs passées en paramètre
-     * 
-     * @param u_param valeur de la composante u
-     * @param v_param valeur de la composante v
-     */
-    public Vecteur2D(float u_param,float v_param)
-    {
-        // initialisation des composantes
-        m_u=u_param;
-        m_v=v_param;
-    }
-    
-    /**
-     * Ajoute au vecteur courant le vecteur passé en paramètre
-     * Les composantes du vecteur passé en paramètres sont ajoutées à celles du vecteur courant
-     * 
-     * @param vecteur à ajouter à l'instance courante
-     */
-    public void add(Vecteur2D vecteur_somme)
-    {
-        this.m_u += vecteur_somme.getU();
-        this.m_v += vecteur_somme.getV();
+        // initialisation des attributs à l'appel du constructeur
+        m_u = 0.0f;
+        m_v = 0.0f;
     }
 
     /**
-     * Retourne la norme du vecteur :
-     * -> racine carrée de la somme de carrés des deux composantes du vecteur
-     *
-     * @return    norme du vecteur
+     * Ce constructeur prend deux paramètre :
+     * les valeurs qui seront assignées aux composantes
+     * m_u et m_v de l'instance de Vecteur2D
+     * 
+     * @param _u la valeur de la composante u du vecteur 
+     * @param _v la valeur de la composante v du vecteur
+     */
+    public Vecteur2D(float _u, float _v)
+    {
+        m_u = _u;
+        m_v =_v;
+    }
+    
+    /**
+     * Cette méthode ajoute au vecteur courant le 
+     * vecteur passé en parmètre. Les composantes du
+     * vecteur passé en paramètre sont ajoutées aux 
+     * composantes du vecteur représenté par l'instance 
+     * courante
+     * 
+     * @param _vec vecteur à ajouter à l'instance courante 
+     * 
+     */
+    
+     public void add(Vecteur2D _vec)
+     {
+         m_u += _vec.getU();
+         m_v += _vec.getV();
+         
+     }
+     
+     /**
+      * accesseur pour la composante u
+      * @return la valeur de la composante u
+      */
+      public float getU()
+      {
+          return m_u;
+      }
+
+     /**
+      * accesseur pour la composante v
+      * @return la valeur de la composante v
+      */
+      public float getV()
+      {
+          return m_v;
+      }
+
+      /**
+       * mutateur pour la composante u
+       * @param _u la valeur de la composante u
+       */
+      public void setU( float _u)
+      {
+          this.m_u = _u;
+      }
+
+      /**
+       * mutateur pour la composante v
+       * @param _v la valeur de la composante u
+       */
+      public void setV( float _v)
+      {
+          this.m_v = _v;
+      }
+
+      
+    /**
+     * Cette méthode retourne la norme du vecteur, c'est à 
+     * dire la recine carrée de la somme de carrés des deux 
+     * composantes du vecteur
+     * @return    la norme du vecteur
      */
     public float getMagnitude()
     {
-        // méthode sqrt du package de base Math (retourne normalement un double donc on transtype)
-        return (float)Math.sqrt(m_u*m_u+m_v*m_v);
+        // la méthode <b>sqrt</b> du package Math retourne un
+        // double : on le transtype en float
+        return (float)Math.sqrt(m_u*m_u + m_v*m_v);
     }
-
-    /**
-     * Accesseur pour la composante u
-     *
-     * @return    la composante u
-     */
-    public float getU()
-    {
-        return m_u;
-    }
-    
-    /**
-     * Accesseur pour la composante v
-     *
-     * @return    la composante v
-     */
-    public float getV()
-    {
-        return m_v;
-    }
-    
-    /**
-     * Mutateur pour la composante u
-     *
-     * @param la nouvelle valeur de u
-     */
-    public void setU(float new_u)
-    {
-        this.m_u = new_u;
-    }
-    
-    /**
-     * Accesseur pour la composante v
-     *
-     * @param la nouvelle valeur de v
-     */
-    public void setV(float new_v)
-    {
-        this.m_v = new_v;
-    }
-
 }

@@ -1,55 +1,44 @@
 package TP3;
 
 /**
- * Cette classe représente un veteur à trois dimensions.
+ * Write a description of class Vecteur3D here.
  *
- * @author Axel
- * @version 0.01
+ * @author (your name)
+ * @version (a version number or a date)
  */
 public class Vecteur3D
 {
-    // composantes x,y et z
+    // instance variables - replace the example below with your own
     float m_x,m_y,m_z;
 
     /**
-     * Constructeur par défaut de la classe Vecteur3D
+     * Constructor for objects of class Vecteur3D
      */
     public Vecteur3D()
     {
-        // initialisation des composantes à zéro
         m_x = 0.0f;
         m_y = 0.0f;
-        m_z = 0.0f;
+        m_z = 0.0f; 
     }
 
     /**
-     * Constructeur d'un Vecteur3D avec valeurs prédéfinies
+     * Constructor for objects of class Vecteur3D
      */
     public Vecteur3D(float _x, float _y, float _z)
     {
-        // initialisation des composantes en fonction des valeurs passées en paramètres
         m_x = _x;
         m_y = _y;
-        m_z = _z;
+        m_z = _z; 
     }
 
-    /**
-     * Accesseur de la composante X
-     */
     public float getX(){
         return m_x;
     }
-    
-    /**
-     * Accesseur de la composante Y
-     */
+
     public float getY(){
         return m_y;
     }
 
-    /**
-     * Accesseur de la composante Z
-     */
     public float getZ(){
         return m_z;
     }
