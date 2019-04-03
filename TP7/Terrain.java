@@ -1,6 +1,5 @@
 package TP7;
 
-
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
@@ -42,48 +41,52 @@ public class Terrain extends Objet
         m_translationOrigine=translation0;
 
         String textureCube = "/TP7/res/gris2.jpg";
-        
-        int dimension = 15;
-        int matriceTerrain[][] = new int[dimension][dimension];
 
+        int dimension = 50;
+        int matriceTerrain[][] = new int[dimension][dimension];
+        SimplexNoise test = new SimplexNoise();
         // Remplissage de la matrice avec valeurs aléatoires
         for(int i=0; i<dimension;  i++){
             for(int j=0;j<dimension;j++){
-                int noise = shittyNoise();
-                int valeurPrec = 0;
-                if (j==0 && i>0)
-                    valeurPrec = matriceTerrain[i-1][14];
-                else if (j==0 && i==0)
-                    valeurPrec=0;
-                else
-                    valeurPrec = matriceTerrain[i][j-1];
-                    
-                switch (noise){
-                    case 0 : matriceTerrain[i][j] = valeurPrec-2;
-                        break;
-                    case 1 : matriceTerrain[i][j] = valeurPrec-1;
-                        break;
-                    case 2 : matriceTerrain[i][j] = valeurPrec;
-                        break;
-                    case 3 : matriceTerrain[i][j] = valeurPrec+1;
-                        break;
-                    case 4 : matriceTerrain[i][j] = valeurPrec+2;
-                        break;
-                }               
+                // int noise = shittyNoise();
+                // int valeurPrec = 0;
+                // if (j==0 && i>0)
+                // valeurPrec = matriceTerrain[i-1][14];
+                // else if (j==0 && i==0)
+                // valeurPrec=0;
+                // else if (i==0 && j>0)
+                // valeurPrec = matriceTerrain[i][j-1];
+                // else
+                // valeurPrec = Math.abs((matriceTerrain[i][j-1]+matriceTerrain[i-1][j])/2);
+
+                // switch (noise){
+                // case 0 : matriceTerrain[i][j] = valeurPrec-2;
+                // break;
+                // case 1 : matriceTerrain[i][j] = valeurPrec-1;
+                // break;
+                // case 2 : matriceTerrain[i][j] = valeurPrec;
+                // break;
+                // case 3 : matriceTerrain[i][j] = valeurPrec+1;
+                // break;
+                // case 4 : matriceTerrain[i][j] = valeurPrec+2;
+                // break;
+                //}   
+
+                float res = test.noise((float)i/30.0f,(float)j/30.0f);
+                //System.out.println(res);
+                matriceTerrain[i][j] = (int)(res*10);
+                //System.out.println(matriceTerrain[i][j]);
             }
         }
-        
+
         // Affichage des cubes
         for(int i=0; i<dimension;  i++){
             for(int j=0;j<dimension;j++){
-                float _hauteur = (float)matriceTerrain[i][j];
-                for (float h = 0.0f; h<=_hauteur*2; h = h+2.0f)
-                {
-                    Vecteur3D vecteur1 = new Vecteur3D(15-2*i,h,15-2*j);
-                    Transformation translation1 = new Translation(translation0, vecteur1);
-                    CubeTexture cube = new CubeTexture(translation1,textureCube);
-                }
+                float hauteur = (float)matriceTerrain[i][j];
 
+                Vecteur3D vecteur1 = new Vecteur3D(15-2*i,hauteur,15-2*j);
+                Transformation translation1 = new Translation(translation0, vecteur1);
+                CubeFilDeFer cube = new CubeFilDeFer(translation1);
             }
         }
     }
@@ -98,25 +101,25 @@ public class Terrain extends Objet
     {
         m_translationOrigine.affiche();
     }
-    
+
     /**
      * 
      */
     public int shittyNoise()
     {
-        double alea = Math.random() * 125; // random entre 0 et 100
+        double alea = Math.random() * 120; // random entre 0 et 100
         int niveau = 0;
-        if (alea >= 0 && alea <= 25)
+        if (alea >= 0 && alea <= 15)
             niveau = 0;
-        else if (alea > 25  && alea <= 50)
+        else if (alea > 15  && alea <= 40)
             niveau = 1;
-        else if (alea > 50 && alea <= 75)
+        else if (alea > 40 && alea <= 80)
             niveau = 2;
-        else if (alea > 75 && alea <= 100)
+        else if (alea > 80 && alea <= 105)
             niveau = 3;
-        else if (alea > 100 && alea <= 125)
+        else if (alea > 105 && alea <= 120)
             niveau = 4;
-        
+
         return niveau;
     }
 }

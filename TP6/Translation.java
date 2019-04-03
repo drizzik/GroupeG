@@ -49,4 +49,14 @@ public class Translation extends Transformation
     {
         GL11.glTranslatef(m_coordonnees.getX(),m_coordonnees.getY(),m_coordonnees.getZ());
     }
+    
+    public void setCoordonnes(Vecteur3D _coords)
+    {
+        m_coordonnees = _coords;
+    }
+    
+    public Vecteur3D getCoordonnees()
+    {
+        return m_coordonnees;
+    }
 }

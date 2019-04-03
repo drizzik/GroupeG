@@ -81,9 +81,9 @@ public class Monde extends Noeud
         if(!Keyboard.isKeyDown(Keyboard.KEY_F)) {          // Is F Being Pressed?
             m_filter = true;
         }        
-        if(!Keyboard.isKeyDown(Keyboard.KEY_D)) {          // Is F Being Pressed?
-            m_filter = false;
-        }        
+        // if(!Keyboard.isKeyDown(Keyboard.KEY_D)) {          // Is F Being Pressed?
+            // m_filter = false;
+        // }        
 
     }
 
@@ -151,7 +151,7 @@ public class Monde extends Noeud
           45.0f,
           (float) m_displayMode.getWidth() / (float) m_displayMode.getHeight(),
           0.1f,
-          100.0f);
+          1000.0f);
 
         GL11.glMatrixMode(GL11.GL_MODELVIEW); // Select The Modelview Matrix
         
@@ -163,13 +163,20 @@ public class Monde extends Noeud
     }
 
     private void prepareScene(){
+        // TERRAIN
+        // Vecteur3D vecteur1 = new Vecteur3D(-0.0f,-20.0f,-60.0f);
+        // Transformation translation1 = new Translation(this, vecteur1);
+        // Rotation rotationCamera = new Rotation(translation0, new Vecteur3D(1.0f,0.0f,0.0f), -20.0f);
         
-        Vecteur3D vecteur0 = new Vecteur3D(-0.0f,-0.0f,-36.0f);
+        Vecteur3D vecteur0 = new Vecteur3D(-0.0f,-20.0f,-60.0f);
         Transformation translation0 = new Translation(this, vecteur0);
         
-        RotationAnimee rotation11 = new RotationAnimee(translation0, new Vecteur3D(0.0f,1.0f,0.0f), 90.0f, 5000);
-        //Arc arc1 = new Arc(rotation11);
-        Terrain terter = new Terrain(rotation11);
+        
+        // DEPLACEMENT TERRAIN
+        DeplacementTerrain depTerrain = new DeplacementTerrain(translation0, new Vecteur3D(1.0f,1.0f,1.0f));
+        //RotationAnimee rota = new RotationAnimee(translation0, new Vecteur3D(0.0f,1.0f,0.0f), 90.0f, 5000);
+        
+        Terrain terter = new Terrain(depTerrain);
         
     }
     
