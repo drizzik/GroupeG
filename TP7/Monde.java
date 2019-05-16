@@ -19,26 +19,29 @@ import java.io.*;
 
 
 /**
- * La classe Monde est le noeud primordial à l'origine du graphe
- * de scène. Elle prend en charge les interactions ainsi que l'initialisation
- * du contexte OpenGL
- *
- * @author Alexis Heloir
- * @version 2019/03/21
- */
+* La classe Monde est le noeud primordial à l'origine du graphe
+* de scène. Elle prend en charge les interactions ainsi que l'initialisation
+* du contexte OpenGL
+*
+* @author Alexis Heloir
+* @version 2019/03/21
+*/
 public class Monde extends Noeud
 {
-    static final int MS_ENTRE_DEUX_AFFICHAGES = 40; // 25 affichages par secondes
+static final int MS_ENTRE_DEUX_AFFICHAGES = 40; // 25 affichages par secondes
 
-    private boolean m_done = false; // Est ce que l'application doit se terminer?
-    private boolean m_fullscreen = false; // Est-ce que l'application doit être plein écran?
-    private final String m_windowTitle = "OpenGL et Graphe de scène"; // Titre de l'application
-    private boolean m_f1 = false; // A t-on appuyé sur la touche F1?
-    private DisplayMode m_displayMode; // propriétés de la fenêtre d'affichage
+private boolean m_done = false; // Est ce que l'application doit se terminer?
+private boolean m_fullscreen = false; // Est-ce que l'application doit être plein écran?
+private final String m_windowTitle = "OpenGL et Graphe de scène"; // Titre de l'application
+private boolean m_f1 = false; // A t-on appuyé sur la touche F1?
+private DisplayMode m_displayMode; // propriétés de la fenêtre d'affichage
 
-    private boolean m_filter = false; // Est-ce  que l'on applique le mipmapping de texture 
+private boolean m_filter = false; // Est-ce  que l'on applique le mipmapping de texture 
 
-    private int mouseX, mouseY; // Position de la souris
+float dx;
+float dy;
+float dt;
+CameraController camera;
     
     /**
      * Le constructuer de la classe Monde ne prend pas de parmètre : la classe Monde 
@@ -47,6 +50,12 @@ public class Monde extends Noeud
     public Monde()
     {
         super(null);
+        Mouse.setGrabbed(true);
+	    
+        dx = 0.0f;
+        dy = 0.0f;
+        dt = 0.0f;
+       
     }
     
     /**
@@ -60,6 +69,7 @@ public class Monde extends Noeud
         {
             m_enfants.get(i).affiche();
         }        
+
     }
 
     /**
@@ -83,17 +93,33 @@ public class Monde extends Noeud
         if(!Keyboard.isKeyDown(Keyboard.KEY_F)) {          // Is F Being Pressed?
             m_filter = true;
         }        
-        // if(!Keyboard.isKeyDown(Keyboard.KEY_D)) {          // Is F Being Pressed?
-            // m_filter = false;
-        // }  
-        
-        // mouseX = Mouse.getDX();
-        // mouseY = Mouse.getDY();
-        // Vecteur3D vecteur1 = new Vecteur3D(-0.0f,-20.0f,-60.0f);
-        // Transformation translation1 = new Translation(this, vecteur1);
-        // Rotation rotationCamera = new Rotation(translation0, new Vecteur3D(1.0f,0.0f,0.0f), -20.0f);
-    }
 
+        if(Keyboard.isKeyDown(Keyboard.KEY_Z)) {
+            camera.walkForward(0.1f);
+        }
+        if(Keyboard.isKeyDown(Keyboard.KEY_Q)) {
+            camera.strafeLeft(0.1f);
+        }
+        if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
+            camera.walkBackwards(0.1f);
+        }
+        if(Keyboard.isKeyDown(Keyboard.KEY_D)) {
+            camera.strafeRight(0.1f);
+        }
+        // if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
+            // Vecteur3D coordsReelles = this.getCoordonnees();
+            // Vecteur3D coordsNouvelles = new Vecteur3D(coordsReelles.getX(),coordsReelles.getY()+0.5f,coordsReelles.getZ());
+            // this.setCoordonnes(coordsNouvelles);
+        // }
+        // if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+            // Vecteur3D coordsReelles = this.getCoordonnees();
+            // Vecteur3D coordsNouvelles = new Vecteur3D(coordsReelles.getX(),coordsReelles.getY()-0.5f,coordsReelles.getZ());
+            // this.setCoordonnes(coordsNouvelles);
+        // }
+        
+        
+    }
+    
     /**
      *  Appelé par la méthode interactionManagement() en charge de capturer les
      *  évènments clavier. Cette méthode gère l'attribut sanctionnant le mode plein
@@ -186,6 +212,8 @@ public class Monde extends Noeud
         //RotationAnimee rota = new RotationAnimee(translation0, new Vecteur3D(0.0f,1.0f,0.0f), 90.0f, 5000);
         
         Terrain terter = new Terrain(depTerrain);
+        
+         camera = new CameraController(this,0.0f,0.0f,0.0f);
     }
     
     private void createWindow() throws Exception {
