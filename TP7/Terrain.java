@@ -48,29 +48,6 @@ public class Terrain extends Objet
         // Remplissage de la matrice avec valeurs aléatoires
         for(int i=0; i<dimension;  i++){
             for(int j=0;j<dimension;j++){
-                // int noise = shittyNoise();
-                // int valeurPrec = 0;
-                // if (j==0 && i>0)
-                // valeurPrec = matriceTerrain[i-1][14];
-                // else if (j==0 && i==0)
-                // valeurPrec=0;
-                // else if (i==0 && j>0)
-                // valeurPrec = matriceTerrain[i][j-1];
-                // else
-                // valeurPrec = Math.abs((matriceTerrain[i][j-1]+matriceTerrain[i-1][j])/2);
-
-                // switch (noise){
-                // case 0 : matriceTerrain[i][j] = valeurPrec-2;
-                // break;
-                // case 1 : matriceTerrain[i][j] = valeurPrec-1;
-                // break;
-                // case 2 : matriceTerrain[i][j] = valeurPrec;
-                // break;
-                // case 3 : matriceTerrain[i][j] = valeurPrec+1;
-                // break;
-                // case 4 : matriceTerrain[i][j] = valeurPrec+2;
-                // break;
-                //}   
 
                 float res = test.noise((float)i/30.0f,(float)j/30.0f);
                 //System.out.println(res);
@@ -84,9 +61,22 @@ public class Terrain extends Objet
             for(int j=0;j<dimension;j++){
                 float hauteur = (float)matriceTerrain[i][j];
 
-                Vecteur3D vecteur1 = new Vecteur3D(15-2*i,hauteur,15-2*j);
+                Vecteur3D vecteur1 = new Vecteur3D(dimension-2*i,hauteur,dimension-2*j); //
                 Transformation translation1 = new Translation(translation0, vecteur1);
-                CubeFilDeFer cube = new CubeFilDeFer(translation1);
+                CubeCouleur cube = new CubeCouleur(translation1, new Vecteur3D(0.964f, 0.803f, 0.505f));
+                
+                boolean cubeWithTree = treeGeneration();
+                if (cubeWithTree)
+                {
+                    Vecteur3D vecteurTree = new Vecteur3D(1.0f,0.0f,-1.0f);
+                    Transformation translationTree = new Translation(translation1, vecteurTree);
+                    Arbre arbre1 = new Arbre(translationTree);
+                    
+                    // Vecteur3D vecteurTrees = new Vecteur3D(dimension-2*i,hauteur,dimension-2*j);
+                    // Rotation rotationTrees = new Rotation(translation1, new Vecteur3D(0.0f,0.0f,1.0f), -90.0f);
+                    // Transformation translationTrees = new Translation(rotationTrees, vecteurTrees);
+                    // Arbre arbre1s = new Arbre(translationTrees);
+                }
             }
         }
     }
@@ -105,21 +95,32 @@ public class Terrain extends Objet
     /**
      * 
      */
-    public int shittyNoise()
+    public boolean treeGeneration()
     {
-        double alea = Math.random() * 120; // random entre 0 et 100
-        int niveau = 0;
-        if (alea >= 0 && alea <= 15)
-            niveau = 0;
-        else if (alea > 15  && alea <= 40)
-            niveau = 1;
-        else if (alea > 40 && alea <= 80)
-            niveau = 2;
-        else if (alea > 80 && alea <= 105)
-            niveau = 3;
-        else if (alea > 105 && alea <= 120)
-            niveau = 4;
-
-        return niveau;
+        double alea = Math.random() * 100; // random entre 0 et 100
+        boolean res;
+        if (alea >=0 && alea <= 2)
+            res = true;
+        else
+            res = false;
+        return res;
     }
+    
+    // public int shittyNoise()
+    // {
+        // double alea = Math.random() * 120; // random entre 0 et 120
+        // int niveau = 0;
+        // if (alea >= 0 && alea <= 15)
+            // niveau = 0;
+        // else if (alea > 15  && alea <= 40)
+            // niveau = 1;
+        // else if (alea > 40 && alea <= 80)
+            // niveau = 2;
+        // else if (alea > 80 && alea <= 105)
+            // niveau = 3;
+        // else if (alea > 105 && alea <= 120)
+            // niveau = 4;
+
+        // return niveau;
+    // }
 }

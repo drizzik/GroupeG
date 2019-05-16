@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 import org.lwjgl.BufferUtils;
 import java.nio.FloatBuffer;
@@ -37,6 +38,7 @@ public class Monde extends Noeud
 
     private boolean m_filter = false; // Est-ce  que l'on applique le mipmapping de texture 
 
+    private int mouseX, mouseY; // Position de la souris
     
     /**
      * Le constructuer de la classe Monde ne prend pas de parmètre : la classe Monde 
@@ -83,8 +85,13 @@ public class Monde extends Noeud
         }        
         // if(!Keyboard.isKeyDown(Keyboard.KEY_D)) {          // Is F Being Pressed?
             // m_filter = false;
-        // }        
-
+        // }  
+        
+        // mouseX = Mouse.getDX();
+        // mouseY = Mouse.getDY();
+        // Vecteur3D vecteur1 = new Vecteur3D(-0.0f,-20.0f,-60.0f);
+        // Transformation translation1 = new Translation(this, vecteur1);
+        // Rotation rotationCamera = new Rotation(translation0, new Vecteur3D(1.0f,0.0f,0.0f), -20.0f);
     }
 
     /**
@@ -136,7 +143,7 @@ public class Monde extends Noeud
         
         GL11.glEnable(GL11.GL_TEXTURE_2D); // Enable Texture Mapping
         GL11.glShadeModel(GL11.GL_SMOOTH); // Enable Smooth Shading
-        GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // Black Background
+        GL11.glClearColor(0.5f, 0.8f, 1.0f, 0.0f); // Black Background
         GL11.glClearDepth(1.0); // Depth Buffer Setup
         GL11.glEnable(GL11.GL_DEPTH_TEST); // Enables Depth Testing
         GL11.glDepthFunc(GL11.GL_LEQUAL); // The Type Of Depth Testing To Do
@@ -160,6 +167,8 @@ public class Monde extends Noeud
         LumiereDirectionelle maLumiere = new LumiereDirectionelle();
         maLumiere.allumer();
         
+        // GL11.glDisable(GL11.GL_LIGHTING);
+        
     }
 
     private void prepareScene(){
@@ -177,15 +186,14 @@ public class Monde extends Noeud
         //RotationAnimee rota = new RotationAnimee(translation0, new Vecteur3D(0.0f,1.0f,0.0f), 90.0f, 5000);
         
         Terrain terter = new Terrain(depTerrain);
-        
     }
     
     private void createWindow() throws Exception {
         Display.setFullscreen(m_fullscreen);
         DisplayMode d[] = Display.getAvailableDisplayModes();
         for (int i = 0; i < d.length; i++) {
-            if (d[i].getWidth() == 640
-                && d[i].getHeight() == 480
+            if (d[i].getWidth() == 1920
+                && d[i].getHeight() == 1080
                 && d[i].getBitsPerPixel() == 32) {
                 m_displayMode = d[i];
                 break;
