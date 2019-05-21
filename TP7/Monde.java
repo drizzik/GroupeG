@@ -38,11 +38,9 @@ private DisplayMode m_displayMode; // propriétés de la fenêtre d'affichage
 
 private boolean m_filter = false; // Est-ce  que l'on applique le mipmapping de texture 
 
-float dx;
-float dy;
-float dt;
-CameraController camera;
-    
+private int dx,dy;
+private float yaw,pitch,xoff,yoff;
+private double lookx,looky,lookz;   
     /**
      * Le constructuer de la classe Monde ne prend pas de parmètre : la classe Monde 
      * n'a pas de parent car son instance (souvent unique) est à l'origine du graphe de scène.
@@ -51,11 +49,8 @@ CameraController camera;
     {
         super(null);
         Mouse.setGrabbed(true);
-	    
-        dx = 0.0f;
-        dy = 0.0f;
-        dt = 0.0f;
-       
+        dx = 0;
+        dy = 0;
     }
     
     /**
@@ -93,31 +88,36 @@ CameraController camera;
         if(!Keyboard.isKeyDown(Keyboard.KEY_F)) {          // Is F Being Pressed?
             m_filter = true;
         }        
+        
+        lookAtMousePosition();
+    }
+    
+    private void lookAtMousePosition()
+    {
+        dx = Mouse.getDX();
+        dy = Mouse.getDY();
 
-        if(Keyboard.isKeyDown(Keyboard.KEY_Z)) {
-            camera.walkForward(0.1f);
-        }
-        if(Keyboard.isKeyDown(Keyboard.KEY_Q)) {
-            camera.strafeLeft(0.1f);
-        }
-        if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
-            camera.walkBackwards(0.1f);
-        }
-        if(Keyboard.isKeyDown(Keyboard.KEY_D)) {
-            camera.strafeRight(0.1f);
-        }
-        // if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
-            // Vecteur3D coordsReelles = this.getCoordonnees();
-            // Vecteur3D coordsNouvelles = new Vecteur3D(coordsReelles.getX(),coordsReelles.getY()+0.5f,coordsReelles.getZ());
-            // this.setCoordonnes(coordsNouvelles);
-        // }
-        // if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-            // Vecteur3D coordsReelles = this.getCoordonnees();
-            // Vecteur3D coordsNouvelles = new Vecteur3D(coordsReelles.getX(),coordsReelles.getY()-0.5f,coordsReelles.getZ());
-            // this.setCoordonnes(coordsNouvelles);
-        // }
+        float sensitivity = 0.5f;
+        xoff = dx * sensitivity;
+        yoff = dy * sensitivity;
+    
+        yaw += xoff;                // yaw is x
+        pitch += yoff;              // pitch is y
+    
+        // Limit up and down camera movement to 90 degrees
+        if (pitch > 89.0f)
+            pitch = 89.0f;
+        if (pitch < -89.0f)
+            pitch = -89.0f;
+    
+        // Update camera position and viewing angle
+        lookx = Math.cos(yaw*2*Math.PI/360) * Math.cos(pitch*2*Math.PI/360);
+        looky = Math.sin(pitch*2*Math.PI/360);
+        lookz = Math.sin(yaw*2*Math.PI/360) * Math.cos(pitch*2*Math.PI/360);
         
-        
+        GLU.gluLookAt(0.0f,  0.0f,  0.0f,  
+                      (float)lookx,(float)looky,(float)lookz,  
+                      0.0f,  1.0f,  0.0f);
     }
     
     /**
@@ -212,8 +212,6 @@ CameraController camera;
         //RotationAnimee rota = new RotationAnimee(translation0, new Vecteur3D(0.0f,1.0f,0.0f), 90.0f, 5000);
         
         Terrain terter = new Terrain(depTerrain);
-        
-         camera = new CameraController(this,0.0f,0.0f,0.0f);
     }
     
     private void createWindow() throws Exception {
