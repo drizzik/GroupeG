@@ -29,6 +29,12 @@ public class Terrain extends Objet
 {
 
     private Noeud m_translationOrigine;
+    
+    Vecteur3D vecteur0;
+    Transformation translation0;
+        
+    int dimension;
+    int matriceTerrain[][];
     /**
      * Constructor for objects of class Terrain
      */
@@ -36,14 +42,14 @@ public class Terrain extends Objet
     {
         super(_parent);
 
-        Vecteur3D vecteur0 = new Vecteur3D(0.0f,0.0f,0.0f);
-        Transformation translation0 = new Translation(this, vecteur0);
+        vecteur0 = new Vecteur3D(0.0f,0.0f,0.0f);
+        translation0 = new Translation(this, vecteur0);
         m_translationOrigine=translation0;
 
         String textureCube = "/TP7/res/gris2.jpg";
 
-        int dimension = 50;
-        int matriceTerrain[][] = new int[dimension][dimension];
+        dimension = 50;
+        matriceTerrain = new int[dimension][dimension];
         SimplexNoise test = new SimplexNoise();
         // Remplissage de la matrice avec valeurs aléatoires
         for(int i=0; i<dimension;  i++){
@@ -71,16 +77,27 @@ public class Terrain extends Objet
                     Vecteur3D vecteurTree = new Vecteur3D(1.0f,0.0f,-1.0f);
                     Transformation translationTree = new Translation(translation1, vecteurTree);
                     Arbre arbre1 = new Arbre(translationTree);
-                    
-                    // Vecteur3D vecteurTrees = new Vecteur3D(dimension-2*i,hauteur,dimension-2*j);
-                    // Rotation rotationTrees = new Rotation(translation1, new Vecteur3D(0.0f,0.0f,1.0f), -90.0f);
-                    // Transformation translationTrees = new Translation(rotationTrees, vecteurTrees);
-                    // Arbre arbre1s = new Arbre(translationTrees);
                 }
             }
         }
     }
 
+    public void spawnBlock(float _posx, float _posz)
+    {
+        System.out.println(dimension/(2*_posx));
+        System.out.println(dimension/(2*_posz));
+        System.out.println("------------");
+        // int realPosX = Math.round(_posx+_posx/2);
+        // int realPosZ = Math.round(_posz+_posz/2);
+        // System.out.println(realPosX);
+        // System.out.println(realPosZ);
+        // System.out.println("------------");
+        
+        // Vecteur3D vecteur1 = new Vecteur3D(dimension-realPosX,matriceTerrain[realPosX][realPosZ],dimension-realPosZ);
+        // Transformation translation1 = new Translation(translation0, vecteur1);
+        // CubeCouleur cube = new CubeCouleur(translation1, new Vecteur3D(0.0f, 0.0f, 0.0f));
+    }
+    
     /**
      * An example of a method - replace this comment with your own
      *
@@ -105,22 +122,5 @@ public class Terrain extends Objet
             res = false;
         return res;
     }
-    
-    // public int shittyNoise()
-    // {
-        // double alea = Math.random() * 120; // random entre 0 et 120
-        // int niveau = 0;
-        // if (alea >= 0 && alea <= 15)
-            // niveau = 0;
-        // else if (alea > 15  && alea <= 40)
-            // niveau = 1;
-        // else if (alea > 40 && alea <= 80)
-            // niveau = 2;
-        // else if (alea > 80 && alea <= 105)
-            // niveau = 3;
-        // else if (alea > 105 && alea <= 120)
-            // niveau = 4;
 
-        // return niveau;
-    // }
 }

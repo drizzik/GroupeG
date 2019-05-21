@@ -40,7 +40,11 @@ private boolean m_filter = false; // Est-ce  que l'on applique le mipmapping de 
 
 private int dx,dy;
 private float yaw,pitch,xoff,yoff;
-private double lookx,looky,lookz;   
+private double lookx,looky,lookz; 
+
+DeplacementTerrain depTerrain;
+Terrain terter;  
+
     /**
      * Le constructuer de la classe Monde ne prend pas de parmètre : la classe Monde 
      * n'a pas de parent car son instance (souvent unique) est à l'origine du graphe de scène.
@@ -51,6 +55,13 @@ private double lookx,looky,lookz;
         Mouse.setGrabbed(true);
         dx = 0;
         dy = 0;
+        yaw = 0.0f;
+        pitch = 0.0f;
+        xoff = 0.0f;
+        yoff = 0.0f;
+        lookx=0.0f;
+        looky=0.0f;
+        lookz=0.0f; 
     }
     
     /**
@@ -89,7 +100,12 @@ private double lookx,looky,lookz;
             m_filter = true;
         }        
         
-        lookAtMousePosition();
+        if(Keyboard.isKeyDown(Keyboard.KEY_E)) {          // Is F Being Pressed?
+            Vecteur3D coords = depTerrain.getCoordonnees();
+            terter.spawnBlock(coords.getX(),coords.getZ());
+        }  
+        
+        //lookAtMousePosition();
     }
     
     private void lookAtMousePosition()
@@ -97,27 +113,13 @@ private double lookx,looky,lookz;
         dx = Mouse.getDX();
         dy = Mouse.getDY();
 
-        float sensitivity = 0.5f;
+        float sensitivity = 0.2f;
         xoff = dx * sensitivity;
         yoff = dy * sensitivity;
-    
-        yaw += xoff;                // yaw is x
-        pitch += yoff;              // pitch is y
-    
-        // Limit up and down camera movement to 90 degrees
-        if (pitch > 89.0f)
-            pitch = 89.0f;
-        if (pitch < -89.0f)
-            pitch = -89.0f;
-    
-        // Update camera position and viewing angle
-        lookx = Math.cos(yaw*2*Math.PI/360) * Math.cos(pitch*2*Math.PI/360);
-        looky = Math.sin(pitch*2*Math.PI/360);
-        lookz = Math.sin(yaw*2*Math.PI/360) * Math.cos(pitch*2*Math.PI/360);
         
-        GLU.gluLookAt(0.0f,  0.0f,  0.0f,  
-                      (float)lookx,(float)looky,(float)lookz,  
-                      0.0f,  1.0f,  0.0f);
+        GLU.gluLookAt(0.0f,  0.0f,  0.0f,
+                      xoff,yoff,-100.0f,
+                      0.0f,  10.0f,  0.0f);
     }
     
     /**
@@ -198,20 +200,12 @@ private double lookx,looky,lookz;
     }
 
     private void prepareScene(){
-        // TERRAIN
-        // Vecteur3D vecteur1 = new Vecteur3D(-0.0f,-20.0f,-60.0f);
-        // Transformation translation1 = new Translation(this, vecteur1);
-        // Rotation rotationCamera = new Rotation(translation0, new Vecteur3D(1.0f,0.0f,0.0f), -20.0f);
-        
         Vecteur3D vecteur0 = new Vecteur3D(-0.0f,-20.0f,-60.0f);
         Transformation translation0 = new Translation(this, vecteur0);
+
+        depTerrain = new DeplacementTerrain(translation0, new Vecteur3D(1.0f,1.0f,1.0f));
         
-        
-        // DEPLACEMENT TERRAIN
-        DeplacementTerrain depTerrain = new DeplacementTerrain(translation0, new Vecteur3D(1.0f,1.0f,1.0f));
-        //RotationAnimee rota = new RotationAnimee(translation0, new Vecteur3D(0.0f,1.0f,0.0f), 90.0f, 5000);
-        
-        Terrain terter = new Terrain(depTerrain);
+        terter = new Terrain(depTerrain);
     }
     
     private void createWindow() throws Exception {
