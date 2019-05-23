@@ -32,7 +32,7 @@ public class CubeFilDeFer extends Objet
         
         // On désactive le mode d'éclairage pour afficher des lignes
         GL11.glDisable(GL11.GL_LIGHTING);
-
+        GL11.glColor3f(0.0f,0.0f,0.0f);
         
         GL11.glBegin(GL11.GL_LINES);
 

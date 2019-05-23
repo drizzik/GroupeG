@@ -38,7 +38,8 @@ private DisplayMode m_displayMode; // propriétés de la fenêtre d'affichage
 
 private boolean m_filter = false; // Est-ce  que l'on applique le mipmapping de texture 
 
-private int dx,dy;
+
+private int dx,dy,x,y;
 private float yaw,pitch,xoff,yoff;
 private double lookx,looky,lookz; 
 
@@ -53,6 +54,8 @@ Terrain terter;
     {
         super(null);
         Mouse.setGrabbed(true);
+        x = 0;
+        y = 
         dx = 0;
         dy = 0;
         yaw = 0.0f;
@@ -105,7 +108,7 @@ Terrain terter;
             terter.spawnBlock(coords.getX(),coords.getZ());
         }  
         
-        //lookAtMousePosition();
+        lookAtMousePosition();
     }
     
     private void lookAtMousePosition()
@@ -118,8 +121,8 @@ Terrain terter;
         yoff = dy * sensitivity;
         
         GLU.gluLookAt(0.0f,  0.0f,  0.0f,
-                      xoff,yoff,-100.0f,
-                      0.0f,  10.0f,  0.0f);
+                      0.0f,yoff,-100.0f,
+                      0.0f,  1.0f,  0.0f);
     }
     
     /**
@@ -200,10 +203,10 @@ Terrain terter;
     }
 
     private void prepareScene(){
-        Vecteur3D vecteur0 = new Vecteur3D(-0.0f,-20.0f,-60.0f);
+        Vecteur3D vecteur0 = new Vecteur3D(0.0f,-20.0f,0.0f);
         Transformation translation0 = new Translation(this, vecteur0);
 
-        depTerrain = new DeplacementTerrain(translation0, new Vecteur3D(1.0f,1.0f,1.0f));
+        depTerrain = new DeplacementTerrain(translation0, new Vecteur3D(0.0f,0.0f,0.0f));
         
         terter = new Terrain(depTerrain);
     }

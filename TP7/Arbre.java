@@ -65,7 +65,7 @@ public class Arbre extends Objet
                      Vecteur3D vecteur1 = new Vecteur3D(dimensionsX-2-2*i,2*dimensionsY-2*j,-1.0f);
                      Transformation translation1 = new Translation(translation0, vecteur1);
                      CubeCouleur cube = new CubeCouleur(translation1, textureCube);
-
+                     CubeFilDeFer contour = new CubeFilDeFer(translation1);   
                     } 
                 }
             }
@@ -93,7 +93,8 @@ public class Arbre extends Objet
                      Transformation translation4 = new Translation(translation0, vecteur4);
                      CubeCouleur cube = new CubeCouleur(translation1, textureCube);
                      CubeCouleur cube2 = new CubeCouleur(translation4, textureCube);
-
+                     CubeFilDeFer contour = new CubeFilDeFer(translation1);
+                     CubeFilDeFer contour2 = new CubeFilDeFer(translation4);
                     } 
                 }
             }
@@ -126,7 +127,9 @@ public class Arbre extends Objet
                      CubeCouleur cube = new CubeCouleur(translation1, textureCube);
                      
                      CubeCouleur cube3 = new CubeCouleur(translation3, textureCube);
-
+                     
+                     CubeFilDeFer contour = new CubeFilDeFer(translation1);
+                     CubeFilDeFer contour2 = new CubeFilDeFer(translation3);
 
                     } 
                 }

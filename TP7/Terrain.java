@@ -1,3 +1,4 @@
+
 package TP7;
 
 import org.lwjgl.opengl.Display;
@@ -29,10 +30,10 @@ public class Terrain extends Objet
 {
 
     private Noeud m_translationOrigine;
-    
+
     Vecteur3D vecteur0;
     Transformation translation0;
-        
+
     int dimension;
     int matriceTerrain[][];
     /**
@@ -67,10 +68,12 @@ public class Terrain extends Objet
             for(int j=0;j<dimension;j++){
                 float hauteur = (float)matriceTerrain[i][j];
 
-                Vecteur3D vecteur1 = new Vecteur3D(dimension-2*i,hauteur,dimension-2*j); //
+                //Vecteur3D vecteur1 = new Vecteur3D(dimension-2*i,hauteur,dimension-2*j);
+                Vecteur3D vecteur1 = new Vecteur3D(dimension-2*i-1,hauteur,dimension-2*j-1);
                 Transformation translation1 = new Translation(translation0, vecteur1);
                 CubeCouleur cube = new CubeCouleur(translation1, new Vecteur3D(0.964f, 0.803f, 0.505f));
-                
+                CubeFilDeFer contour = new CubeFilDeFer(translation1);
+
                 boolean cubeWithTree = treeGeneration();
                 if (cubeWithTree)
                 {
@@ -80,24 +83,63 @@ public class Terrain extends Objet
                 }
             }
         }
+
+        Vecteur3D vecteur1 = new Vecteur3D(dimension-2*25-1,10,dimension-2*25-1);
+        Transformation translation1 = new Translation(translation0, vecteur1);
+        CubeCouleur cube = new CubeCouleur(translation1, new Vecteur3D(0.0f, 0.0f, 0.0f));
+
+        Vecteur3D vecteur3= new Vecteur3D(dimension-2*24-1,10,dimension-2*24-1);
+        Transformation translation3 = new Translation(translation0, vecteur3);
+        CubeCouleur cube3 = new CubeCouleur(translation3, new Vecteur3D(0.0f, 0.0f, 0.0f));
+
+        Vecteur3D vecteur4 = new Vecteur3D(dimension-2*24-1,10,dimension-2*25-1);
+        Transformation translation4 = new Translation(translation0, vecteur4);
+        CubeCouleur cube4 = new CubeCouleur(translation4, new Vecteur3D(0.0f, 0.0f, 0.0f));
+
+        Vecteur3D vecteur5 = new Vecteur3D(dimension-2*25-1,10,dimension-2*24-1);
+        Transformation translation5 = new Translation(translation0, vecteur5);
+        CubeCouleur cube5 = new CubeCouleur(translation5, new Vecteur3D(0.0f, 0.0f, 0.0f));
+
+        Vecteur3D vecteur2 = new Vecteur3D(0.0f,12,0.0f);
+        Transformation translation2 = new Translation(translation0, vecteur2);
+        CubeCouleur cube2 = new CubeCouleur(translation2, new Vecteur3D(1.0f, 1.0f, 1.0f));
     }
 
     public void spawnBlock(float _posx, float _posz)
     {
-        System.out.println(dimension/(2*_posx));
-        System.out.println(dimension/(2*_posz));
-        System.out.println("------------");
+        // System.out.println(_posx);
+        // System.out.println(_posz);
+        // System.out.println("------------");
+        System.out.println((int)(dimension-1-_posx)/2);
+        System.out.println((int)(dimension-1-_posz)/2);
+        System.out.println("-------------------------------------");
         // int realPosX = Math.round(_posx+_posx/2);
         // int realPosZ = Math.round(_posz+_posz/2);
         // System.out.println(realPosX);
         // System.out.println(realPosZ);
         // System.out.println("------------");
-        
-        // Vecteur3D vecteur1 = new Vecteur3D(dimension-realPosX,matriceTerrain[realPosX][realPosZ],dimension-realPosZ);
-        // Transformation translation1 = new Translation(translation0, vecteur1);
-        // CubeCouleur cube = new CubeCouleur(translation1, new Vecteur3D(0.0f, 0.0f, 0.0f));
+
+        int xMatrice = (int)((dimension-1-_posx)/2);
+        int zMatrice = (int)((dimension-1-_posz)/2);
+        float xPosReelle = dimension-2*xMatrice-1;
+        float zPosReelle = dimension-2*zMatrice-1;
+
+        if (xMatrice >= 0 && xMatrice < dimension && zMatrice >= 0 && zMatrice < dimension )
+        {
+            // Vecteur3D vecteur1 = new Vecteur3D(xMatrice,matriceTerrain[xMatrice][zMatrice],zMatrice);
+            Vecteur3D vecteur1 = new Vecteur3D(-xPosReelle,matriceTerrain[xMatrice][zMatrice],-zPosReelle);
+            Transformation translation1 = new Translation(translation0, vecteur1);
+            CubeCouleur cube = new CubeCouleur(translation1, new Vecteur3D(0.0f, 0.0f, 0.0f));
+        }
+        else 
+        {
+            // Vecteur3D vecteur1 = new Vecteur3D(xMatrice,matriceTerrain[xMatrice][zMatrice],zMatrice);
+            Vecteur3D vecteur1 = new Vecteur3D(-xPosReelle,10,-zPosReelle);
+            Transformation translation1 = new Translation(translation0, vecteur1);
+            CubeCouleur cube = new CubeCouleur(translation1, new Vecteur3D(0.0f, 0.0f, 0.0f));
+        }
+
     }
-    
     /**
      * An example of a method - replace this comment with your own
      *
